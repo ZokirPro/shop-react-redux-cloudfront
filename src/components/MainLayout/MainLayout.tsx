@@ -38,6 +38,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           component="p"
         >
           Thank you for your purchase!
+          <br></br>© ZokirPro
         </Typography>
         <Copyright />
       </Box>
