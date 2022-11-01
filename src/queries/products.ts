@@ -4,14 +4,24 @@ import { AvailableProduct } from "~/models/Product";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import React from "react";
 
+type getProductsListResponseType = {
+  data: AvailableProduct[];
+};
+
+type getProductByIdResponseType = {
+  data: {
+    product: AvailableProduct;
+  };
+};
+
 export function useAvailableProducts() {
   return useQuery<AvailableProduct[], AxiosError>(
     "available-products",
     async () => {
-      const res = await axios.get<AvailableProduct[]>(
-        `${API_PATHS.bff}/product/available`
+      const res = await axios.get<getProductsListResponseType>(
+        `${API_PATHS.bff}/products`
       );
-      return res.data;
+      return res.data.data;
     }
   );
 }
@@ -28,10 +38,10 @@ export function useAvailableProduct(id?: string) {
   return useQuery<AvailableProduct, AxiosError>(
     ["product", { id }],
     async () => {
-      const res = await axios.get<AvailableProduct>(
-        `${API_PATHS.bff}/product/${id}`
+      const res = await axios.get<getProductByIdResponseType>(
+        `${API_PATHS.bff}/products/${id}`
       );
-      return res.data;
+      return res.data.data.product;
     },
     { enabled: !!id }
   );
