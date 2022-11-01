@@ -20,5 +20,8 @@
     "react": {
       "version": "detect"
     }
+  },
+  "rules": {
+    "@typescript-eslint/ban-ts-comment": "warn"
   }
 }
