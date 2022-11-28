@@ -1,6 +1,8 @@
+/* eslint-disable */
 import React from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import axios from "axios";
 
 type CSVFileImportProps = {
   url: string;
@@ -41,6 +43,34 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
     // });
     // console.log("Result: ", result);
     // setFile("");
+    localStorage.setItem(
+      "authorization_token",
+      "Wm9raXJQcm89VEVTVF9QQVNTV09SRA=="
+    );
+
+    const token = localStorage.getItem("authorization_token");
+    const response = await axios({
+      method: "GET",
+      url,
+      params: {
+        // @ts-ignore
+        name: encodeURIComponent(file.name),
+      },
+      headers: {
+        "content-type": "application/json",
+        authorization: `Basic ${token}`,
+      },
+    });
+    console.log(response);
+    // @ts-ignore
+    console.log("File to upload:", file.name);
+    console.log("Uploading to:", response.data.data);
+    const result = await fetch(response.data.data, {
+      method: "PUT",
+      body: file,
+    });
+    console.log("Result", result);
+    setFile(undefined);
   };
   return (
     <Box>
